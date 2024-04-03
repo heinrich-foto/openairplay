@@ -8,7 +8,7 @@ except ImportError:
     print("Please ensure you have it installed.")
     sys.exit("Could not find zeroconf.")
 
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, pyqtSignal
 
 from . import log, utils
 from .receiver_device import AirplayReceiver, AirplayFeatures
