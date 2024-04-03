@@ -7,7 +7,7 @@ import zeroconf
 import zeroconf.asyncio
 from zeroconf.asyncio import AsyncServiceInfo
 from zeroconf import ServiceStateChange
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, pyqtSignal
 
 from . import log, utils
 from .receiver_device import AirplayReceiver, AirplayFeatures

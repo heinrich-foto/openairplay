@@ -4,8 +4,8 @@
 import sys
 import asyncio
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QSettings
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import QSettings
 from qasync import QEventLoop
 
 from . import log
@@ -234,16 +234,16 @@ class Window(QtWidgets.QWidget):
         typeLabel = QtWidgets.QLabel("Type:")
 
         self.typeComboBox = QtWidgets.QComboBox()
-        self.typeComboBox.addItem("None", QtWidgets.QSystemTrayIcon.NoIcon)
+        self.typeComboBox.addItem("None", QtWidgets.QSystemTrayIcon.MessageIcon.NoIcon)
         #self.typeComboBox.addItem(self.style().standardIcon(
         #        QtWidgets.QStyle.SP_MessageBoxInformation), "Information", #QtWidgets.QSystemTrayIcon.Information)
         #self.typeComboBox.addItem(self.style().standardIcon(
         #        QtWidgets.QStyle.SP_MessageBoxWarning), "Warning", #QtWidgets.QSystemTrayIcon.Warning)
         #self.typeComboBox.addItem(self.style().standardIcon(
         #        QtWidgets.QStyle.SP_MessageBoxCritical), "Critical", #QtWidgets.QSystemTrayIcon.Critical)
-        self.typeComboBox.addItem("Information", QtWidgets.QSystemTrayIcon.Information)
-        self.typeComboBox.addItem("Warning", QtWidgets.QSystemTrayIcon.Information)
-        self.typeComboBox.addItem("Critical", QtWidgets.QSystemTrayIcon.Information)
+        self.typeComboBox.addItem("Information", QtWidgets.QSystemTrayIcon.MessageIcon.Information)
+        self.typeComboBox.addItem("Warning", QtWidgets.QSystemTrayIcon.MessageIcon.Warning)
+        self.typeComboBox.addItem("Critical", QtWidgets.QSystemTrayIcon.MessageIcon.Critical)
         self.typeComboBox.setCurrentIndex(1)
 
         self.durationLabel = QtWidgets.QLabel("Duration:")
@@ -284,14 +284,14 @@ class Window(QtWidgets.QWidget):
         self.messageGroupBox.setLayout(messageLayout)
 
     def createActions(self): # Create Actions that can be taken from the System Tray Icon
-        self.minimizeAction = QtWidgets.QAction("Mi&nimize to Tray", self, triggered=self.hide)
+        self.minimizeAction = QtGui.QAction("Mi&nimize to Tray", self, triggered=self.hide)
 
         # Application is not the kind to be maximized
         #self.maximizeAction = QtWidgets.QAction("Ma&ximize", self, triggered=self.showMaximized)
 
-        self.restoreAction = QtWidgets.QAction("Show &Window", self, triggered=self.showNormal)
+        self.restoreAction = QtGui.QAction("Show &Window", self, triggered=self.showNormal)
 
-        self.quitAction = QtWidgets.QAction("&Quit", self, triggered=QtWidgets.qApp.quit)
+        self.quitAction = QtWidgets.QAction("&Quit", self, triggered=QtWidgets.QApplication.quit)
 
     def createTrayIcon(self):
         self.trayIconMenu = QtWidgets.QMenu()

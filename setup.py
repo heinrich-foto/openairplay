@@ -29,7 +29,7 @@ setup(
         "Pebble",
         "bpython",
         "zeroconf",
-        "PyQt5",
+        "PyQt6",
         "pyatv",
     ],
     entry_points={
