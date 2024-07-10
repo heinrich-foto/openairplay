@@ -166,8 +166,8 @@ class Window(QtWidgets.QWidget):
         self.iconLabel = QtWidgets.QLabel("Icon:")
 
         self.iconComboBox = QtWidgets.QComboBox()
-        self.iconComboBox.addItem(QtGui.QIcon('images/Airplay-Light'), "Black Icon")
-        self.iconComboBox.addItem(QtGui.QIcon('images/Airplay-Dark'), "White Icon")
+        self.iconComboBox.addItem(QtGui.QIcon('../images/Airplay-Light'), "Black Icon")
+        self.iconComboBox.addItem(QtGui.QIcon('../images/Airplay-Dark'), "White Icon")
 
         self.showIconCheckBox = QtWidgets.QCheckBox("Show tray icon")
         self.showIconCheckBox.setChecked(self.settings.value('systrayicon', type=bool))
