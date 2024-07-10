@@ -10,8 +10,9 @@ except ImportError:
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from . import log, utils
-from .receiver_device import AirplayReceiver, AirplayFeatures
+import log
+import utils
+from receiver_device import AirplayReceiver, AirplayFeatures
 
 
 # global airplayReceivers

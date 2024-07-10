@@ -1,12 +1,9 @@
 
 from enum import Flag
-import plistlib
 
-import requests
 import zeroconf
 
-from . import log
-from .utils import SimpleRepr
+from utils import SimpleRepr
 
 
 class AirplayFeatures(Flag):

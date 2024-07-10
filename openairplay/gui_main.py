@@ -3,8 +3,8 @@
 
 import sys
 
-from . import log
-from .receiver_device import AirplayReceiver
+import log
+from receiver_device import AirplayReceiver
 
 log.setLevel(log.DEBUG)
 log.debug("Debugging enabled.")
@@ -22,7 +22,8 @@ except ImportError:
     sys.exit("Could not import Python3 Qt Libraries.")
 
 # Airplay Things:
-from . import discovery
+import discovery
+
 
 class Window(QtWidgets.QWidget):
     def __init__(self):
