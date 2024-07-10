@@ -10,7 +10,7 @@ import zeroconf
 import pyatv
 from pyatv.conf import AppleTV
 from pyatv.support.rtsp import RtspSession
-from pyatv.protocols.airplay.remote_control import RemoteControl as AirPlayRemoteControl
+# from pyatv.protocols.airplay.remote_control import RemoteControl as AirPlayRemoteControl
 
 from . import log
 from .utils import SimpleRepr

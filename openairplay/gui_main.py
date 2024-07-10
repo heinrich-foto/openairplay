@@ -79,11 +79,15 @@ class Window(QtWidgets.QWidget):
 
         # Start discovery of airplay receivers:
         log.debug("Starting discovery service...")
-        self.service_listener = discovery.AirplayServiceListener(asyncio.get_running_loop())
-        self.service_listener.start()
-
-        self.service_listener.receiver_added.connect(self.add_receiver)
-        self.service_listener.receiver_removed.connect(self.remove_receiver)
+        try:
+            loop = asyncio.get_event_loop()
+            log.debug(f"Event loop running: {loop}")
+            self.service_listener = discovery.AirplayServiceListener(loop)
+            self.service_listener.start()
+            self.service_listener.receiver_added.connect(self.add_receiver)
+            self.service_listener.receiver_removed.connect(self.remove_receiver)
+        except RuntimeError as e:
+            log.error(f"Failed to get running event loop: {e}")
 
     def setVisible(self, visible):
         # When we want to 'disappear' into the system tray.
@@ -125,11 +129,12 @@ class Window(QtWidgets.QWidget):
         self.settings.setValue('systrayicon', preference)
 
     def iconActivated(self, reason):
-        if reason in (QtWidgets.QSystemTrayIcon.Trigger, QtWidgets.QSystemTrayIcon.DoubleClick):
+        if reason in (QtWidgets.QSystemTrayIcon.ActivationReason.Trigger,
+                      QtWidgets.QSystemTrayIcon.ActivationReason.DoubleClick):
             self.iconComboBox.setCurrentIndex(
                 (self.iconComboBox.currentIndex() + 1)
                 % self.iconComboBox.count())
-        elif reason == QtWidgets.QSystemTrayIcon.MiddleClick:
+        elif reason == QtWidgets.QSystemTrayIcon.ActivationReason.MiddleClick:
             self.showMessage()
 
     def showMessage(self):
@@ -148,7 +153,7 @@ class Window(QtWidgets.QWidget):
     def add_receiver(self, receiver: AirplayReceiver):
         log.debug(f"Adding receiver to UI: {receiver.list_entry_name}")
         item = QtWidgets.QListWidgetItem(receiver.list_entry_name)
-        item.setData(QtCore.Qt.UserRole, receiver)
+        item.setData(QtCore.Qt.ItemDataRole.UserRole, receiver)
         self.deviceSelectList.addItem(item)
         log.debug(f"Added receiver to deviceSelectList: '{receiver.name}'")
 
@@ -159,7 +164,7 @@ class Window(QtWidgets.QWidget):
 
     def remove_receiver(self, receiver: AirplayReceiver):
         item_name = receiver.list_entry_name
-        items = self.deviceSelectList.findItems(item_name, QtCore.Qt.MatchExactly)
+        items = self.deviceSelectList.findItems(item_name, QtCore.Qt.MatchFlag.MatchExactly)
         for x in items:
             self.deviceSelectList.takeItem(self.deviceSelectList.row(x))
             log.debug(f"Removed receiver from deviceSelectList: '{receiver.name}'")
@@ -178,7 +183,7 @@ class Window(QtWidgets.QWidget):
             # TODO stop mirroring to other displays
             log.warn(f"TODO: no display -> stop")
             return
-        target_device = self.deviceSelectList.item(selected[0]).data(QtCore.Qt.UserRole)
+        target_device = self.deviceSelectList.item(selected[0]).data(QtCore.Qt.ItemDataRole.UserRole)
         log.info(f"Starting mirroring to {target_device_name} ...")
 
         self._active_mirroring_client = OpenAirPlayMirroringClient(target_device)
@@ -291,7 +296,7 @@ class Window(QtWidgets.QWidget):
 
         self.restoreAction = QtGui.QAction("Show &Window", self, triggered=self.showNormal)
 
-        self.quitAction = QtWidgets.QAction("&Quit", self, triggered=QtWidgets.QApplication.quit)
+        self.quitAction = QtGui.QAction("&Quit", self, triggered=QtWidgets.QApplication.quit)
 
     def createTrayIcon(self):
         self.trayIconMenu = QtWidgets.QMenu()
