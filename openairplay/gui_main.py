@@ -260,7 +260,7 @@ class Window(QtWidgets.QWidget):
 
         self.restoreAction = QtGui.QAction("Show &Window", self, triggered=self.showNormal)
 
-        self.quitAction = QtWidgets.QAction("&Quit", self, triggered=QtWidgets.QApplication.quit)
+        self.quitAction = QtGui.QAction("&Quit", self, triggered=QtWidgets.QApplication.quit)
 
     def createTrayIcon(self):
         self.trayIconMenu = QtWidgets.QMenu()
@@ -292,4 +292,4 @@ if __name__ == '__main__':
     window.show()
 
     # After teh progreem endz:
-    sys.exit(app.exec_()) # Goodbye World
+    sys.exit(app.exec()) # Goodbye World
